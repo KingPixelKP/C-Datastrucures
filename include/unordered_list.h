@@ -60,6 +60,11 @@
             else                                                                   \
                 list.capacity *= 2;                                                \
             list.array = realloc(list.array, list.capacity * sizeof(*list.array)); \
+            if (!list.array)                                                       \
+            {                                                                      \
+                printf("Rellocation error!\n");                                    \
+                exit(1);                                                           \
+            }                                                                      \
         }                                                                          \
         list.array[list.size++] = value;                                           \
     } while (0)
@@ -87,6 +92,11 @@
             else                                                                                              \
                 list.capacity *= 2;                                                                           \
             list.array = realloc(list.array, list.capacity * sizeof(*list.array));                            \
+            if (!list.array)                                                                                  \
+            {                                                                                                 \
+                printf("Rellocation error!\n");                                                               \
+                exit(1);                                                                                      \
+            }                                                                                                 \
         }                                                                                                     \
         if (list.size == index)                                                                               \
             ulist_push(list, value);                                                                          \

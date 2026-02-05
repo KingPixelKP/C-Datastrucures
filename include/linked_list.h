@@ -70,6 +70,11 @@
         if (list.size == 0)                                        \
         {                                                          \
             list.front = malloc(sizeof(typeof(*list.front)));      \
+            if (!list.front)                                       \
+            {                                                      \
+                printf("Allocation error!\n");                     \
+                exit(1);                                           \
+            }                                                      \
             *list.front = ___linked_list_node_init;                \
             list.back = list.front;                                \
             list.front->value = _value;                            \
@@ -77,6 +82,11 @@
         else                                                       \
         {                                                          \
             list.back->next = malloc(sizeof(typeof(*list.front))); \
+            if (!list.back->next)                                  \
+            {                                                      \
+                printf("Allocation error!\n");                     \
+                exit(1);                                           \
+            }                                                      \
             *list.back->next = ___linked_list_node_init;           \
             list.back->next->prev = list.back;                     \
             list.back = list.back->next;                           \
@@ -94,6 +104,11 @@
         if (list.size == 0)                                         \
         {                                                           \
             list.front = malloc(sizeof(typeof(*list.front)));       \
+            if (!list.front)                                        \
+            {                                                       \
+                printf("Allocation error!\n");                      \
+                exit(1);                                            \
+            }                                                       \
             *list.front = ___linked_list_node_init;                 \
             list.back = list.front;                                 \
             list.front->value = _value;                             \
@@ -101,6 +116,11 @@
         else                                                        \
         {                                                           \
             list.front->prev = malloc(sizeof(typeof(*list.front))); \
+            if (!list.front->prev)                                  \
+            {                                                       \
+                printf("Allocation error!\n");                      \
+                exit(1);                                            \
+            }                                                       \
             *list.front->prev = ___linked_list_node_init;           \
             list.front->prev->next = list.front;                    \
             list.front = list.front->prev;                          \
@@ -173,6 +193,11 @@
     {                                                                               \
         typeof(list.front) ___insert_before = ___linked_list_get_node(list, index); \
         typeof(list.front) ___new_node = malloc(sizeof(typeof(*list.front)));       \
+        if (!___new_node)                                                           \
+        {                                                                           \
+            printf("Allocation error!\n");                                          \
+            exit(1);                                                                \
+        }                                                                           \
         *___new_node = ___linked_list_node_init;                                    \
         ___new_node->value = _value;                                                \
         ___new_node->next = ___insert_before;                                       \
