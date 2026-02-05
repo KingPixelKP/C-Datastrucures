@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "unordered_list.h"
+#include "default_funcitons.h"
 
 #define HASH_MAP_DEFAULT_SIZE 128
 
@@ -29,6 +30,25 @@
         .capacity = 0,                 \
         .hash = hashFn,                \
         .equal = equalFn,              \
+    }
+
+#define hash_map_init_intkey \
+    {                        \
+        .keys = NULL,        \
+        .values = NULL,      \
+        .size = 0,           \
+        .capacity = 0,       \
+        .hash = intHashFn,   \
+        .equal = intEqualFn, \
+    }
+#define hash_map_init_strkey \
+    {                        \
+        .keys = NULL,        \
+        .values = NULL,      \
+        .size = 0,           \
+        .capacity = 0,       \
+        .hash = strHashFn,   \
+        .equal = strEqualFn, \
     }
 
 #define ___hash_map_init_ulists(hash_map)                                                             \
