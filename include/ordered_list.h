@@ -1,44 +1,36 @@
-#ifndef UNO_LIST_H
-#define UNO_LIST_H
-#include <stdlib.h>
+#ifndef O_LIST_H
+/**
+ * This list is not sorted its values will not be sorted, this list only makes sure that the values stay in their insertion order
+ */
+#define O_LIST_H
 #include <memory.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 /**
- * Defines an unordered list of type T
+ * Defines an ordered list of type T
  */
-#define ulist_define(T)       \
-    typedef struct UList_##T \
+#define olist_define(T)      \
+    typedef struct Olist_##T \
     {                        \
         T *array;            \
         int size;            \
         int capacity;        \
-    } UList_##T
-
-/**
- * Defines a list of type T with name name
- */
-#define ulist_define_name(T, name) \
-    typedef struct name           \
-    {                             \
-        T *array;                 \
-        int size;                 \
-        int capacity;             \
-    } name
+    } OList_##T
 
 /**
  * Inits the list
  */
-#define ulist_init { \
-    .array = NULL,  \
-    .size = 0,      \
-    .capacity = 0,  \
+#define olist_init { \
+    .array = NULL,   \
+    .size = 0,       \
+    .capacity = 0,   \
 }
 
 /**
  * Check if the index is within bounds of the list
  */
-#define ___ulist_check_bounds(list, index)    \
+#define ___olist_check_bounds(list, index)   \
     {                                        \
         if (index >= list.size)              \
         {                                    \
@@ -50,7 +42,7 @@
 /**
  * Pushes a value onto the list
  */
-#define ulist_push(list, value)                                                     \
+#define olist_push(list, value)                                                    \
     do                                                                             \
     {                                                                              \
         if (list.size >= list.capacity)                                            \
@@ -67,17 +59,17 @@
 /**
  * Pops the last value of the list
  */
-#define ulist_pop(list) (list.array[--list.size])
+#define olist_pop(list) (list.array[--list.size])
 
 /**
  * Peeks the last value of the list
  */
-#define ulist_peek(list) (list.array[list.size-1])
+#define olist_peek(list) (list.array[list.size - 1])
 
 /**
  * Inserts an element at the index position of the list
  */
-#define ulist_insert(list, index, value)                                                                       \
+#define olist_insert(list, index, value)                                                                      \
     do                                                                                                        \
     {                                                                                                         \
         if (list.size >= list.capacity)                                                                       \
@@ -89,10 +81,10 @@
             list.array = realloc(list.array, list.capacity * sizeof(*list.array));                            \
         }                                                                                                     \
         if (list.size == index)                                                                               \
-            ulist_push(list, value);                                                                           \
+            olist_push(list, value);                                                                          \
         else                                                                                                  \
         {                                                                                                     \
-            ___ulist_check_bounds(list, index);                                                                \
+            ___olist_check_bounds(list, index);                                                               \
             memmove(&list.array[index + 1], &list.array[index], sizeof(*list.array) * list.size - index - 1); \
             list.array[index] = value;                                                                        \
             list.size++;                                                                                      \
@@ -102,30 +94,31 @@
 /**
  * Removes a value from the list, WILL NOT MANTAIN ORDER
  */
-#define ulist_remove(list, index)                         \
-    do                                                   \
-    {                                                    \
-        ___ulist_check_bounds(list, index);               \
-        if (index == list.size - 1)                      \
-            list.size--;                                 \
-        else                                             \
-        {                                                \
-            list.array[index] = list.array[--list.size]; \
-        }                                                \
-    } while (0)
+#define olist_remove(list, index)                                                                                     \
+    do                                                                                                                \
+    {                                                                                                                 \
+        ___olist_check_bounds(list, index);                                                                           \
+        if (index == list.size - 1)                                                                                   \
+            list.size--;                                                                                              \
+        else                                                                                                          \
+        {                                                                                                             \
+            memmove(&list.array[index], &list.array[index + 1], sizeof(typeof(*list.array)) * list.size - index - 1); \
+            list.size--;                                                                                              \
+        }                                                                                                             \
+    } while (0);
 
 /**
  * Gets the value at the indexes position
  */
-#define ulist_get(list, index) ({       \
-    ___ulist_check_bounds(list, index); \
-    list.array[index];                 \
+#define olist_get(list, index) ({       \
+    ___olist_check_bounds(list, index); \
+    list.array[index];                  \
 })
 
 /**
  * Frees all memory the list used
  */
-#define ulist_free(list)   \
+#define olist_free(list)  \
     do                    \
     {                     \
         free(list.array); \
