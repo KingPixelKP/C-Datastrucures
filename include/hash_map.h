@@ -51,89 +51,89 @@
         free(hash_map.values);                      \
     }
 
-#define hash_map_rehash_if_full(hash_map)                                                                       \
-    {                                                                                                           \
-        do                                                                                                      \
-        {                                                                                                       \
-            if (0.5 < (float)hash_map.size / (float)hash_map.capacity)                                          \
-            {                                                                                                   \
-                hash_map.capacity *= 2;                                                                         \
-                ___hash_map_init_lists(hash_map) for (int ___i = 0; ___i < hash_map.capacity / 2; ___i++)       \
-                {                                                                                               \
-                    for (int ___j = 0; ___j < hash_map.keys[___i].size; ___j++)                                 \
-                    {                                                                                           \
-                        int newIndex = abs(hash_map.hash(hash_map.keys[___i].array[___j])) % hash_map.capacity; \
-                        list_push(___keys[newIndex], hash_map.keys[___i].array[___j]);                          \
-                        list_push(___values[newIndex], hash_map.values[___i].array[___j]);                      \
-                    }                                                                                           \
-                    list_free(hash_map.keys[___i]);                                                             \
-                    list_free(hash_map.values[___i]);                                                           \
-                }                                                                                               \
-                free(hash_map.keys);                                                                            \
-                free(hash_map.values);                                                                          \
-                hash_map.keys = ___keys;                                                                        \
-                hash_map.values = ___values;                                                                    \
-            }                                                                                                   \
-            else if (hash_map.capacity == 0)                                                                    \
-            {                                                                                                   \
-                hash_map.capacity = HASH_MAP_DEFAULT_SIZE;                                                      \
-                ___hash_map_init_lists(hash_map)                                                                \
-                    hash_map.keys = ___keys;                                                                    \
-                hash_map.values = ___values;                                                                    \
-            }                                                                                                   \
-        } while (0);                                                                                            \
+#define hash_map_rehash_if_full(hash_map)                                                                           \
+    {                                                                                                               \
+        do                                                                                                          \
+        {                                                                                                           \
+            if (0.5 < (float)hash_map.size / (float)hash_map.capacity)                                              \
+            {                                                                                                       \
+                hash_map.capacity *= 2;                                                                             \
+                ___hash_map_init_lists(hash_map) for (int ___i = 0; ___i < hash_map.capacity / 2; ___i++)           \
+                {                                                                                                   \
+                    for (int ___j = 0; ___j < hash_map.keys[___i].size; ___j++)                                     \
+                    {                                                                                               \
+                        int newIndex = abs(hash_map.hash(list_get(hash_map.keys[___i], ___j))) % hash_map.capacity; \
+                        list_push(___keys[newIndex], list_get(hash_map.keys[___i],___j));                          \
+                        list_push(___values[newIndex], list_get(hash_map.values[___i],___j));                        \
+                    }                                                                                               \
+                    list_free(hash_map.keys[___i]);                                                                 \
+                    list_free(hash_map.values[___i]);                                                               \
+                }                                                                                                   \
+                free(hash_map.keys);                                                                                \
+                free(hash_map.values);                                                                              \
+                hash_map.keys = ___keys;                                                                            \
+                hash_map.values = ___values;                                                                        \
+            }                                                                                                       \
+            else if (hash_map.capacity == 0)                                                                        \
+            {                                                                                                       \
+                hash_map.capacity = HASH_MAP_DEFAULT_SIZE;                                                          \
+                ___hash_map_init_lists(hash_map)                                                                    \
+                    hash_map.keys = ___keys;                                                                        \
+                hash_map.values = ___values;                                                                        \
+            }                                                                                                       \
+        } while (0);                                                                                                \
     }
 
-#define hash_map_put(hash_map, key, value)                                    \
-    {                                                                         \
-        do                                                                    \
-        {                                                                     \
-            hash_map_rehash_if_full(hash_map);                                \
-            int ___index = abs(hash_map.hash(key)) % hash_map.capacity;       \
-            int ___i = 0;                                                     \
-            while (___i < hash_map.keys[___index].size)                       \
-            {                                                                 \
-                if (hash_map.equal(hash_map.keys[___index].array[___i], key)) \
-                    hash_map.values[___index].array[___i] = value;            \
-                ___i++;                                                       \
-            }                                                                 \
-            if (___i == hash_map.keys[___index].size)                         \
-            {                                                                 \
-                list_push(hash_map.keys[___index], key);                      \
-                list_push(hash_map.values[___index], value);                  \
-                hash_map.size++;                                              \
-            }                                                                 \
-                                                                              \
-        } while (0);                                                          \
+#define hash_map_put(hash_map, key, value)                                        \
+    {                                                                             \
+        do                                                                        \
+        {                                                                         \
+            hash_map_rehash_if_full(hash_map);                                    \
+            int ___index = abs(hash_map.hash(key)) % hash_map.capacity;           \
+            int ___i = 0;                                                         \
+            while (___i < hash_map.keys[___index].size)                           \
+            {                                                                     \
+                if (hash_map.equal(list_get(hash_map.keys[___index], ___i), key)) \
+                    hash_map.values[___index].array[___i] = value;                \
+                ___i++;                                                           \
+            }                                                                     \
+            if (___i == hash_map.keys[___index].size)                             \
+            {                                                                     \
+                list_push(hash_map.keys[___index], key);                          \
+                list_push(hash_map.values[___index], value);                      \
+                hash_map.size++;                                                  \
+            }                                                                     \
+                                                                                  \
+        } while (0);                                                              \
     }
 
-#define hash_map_has(hash_map, key)                                                                              \
-    ({                                                                                                           \
-        int ___index = abs(hash_map.hash(key)) % hash_map.capacity;                                              \
-        int ___i = 0;                                                                                            \
-        while (___i < hash_map.keys[___index].size && !hash_map.equal(hash_map.keys[___index].array[___i], key)) \
-            ___i++;                                                                                              \
-        (___i < hash_map.keys[___index].size);                                                                   \
+#define hash_map_has(hash_map, key)                                                                                  \
+    ({                                                                                                               \
+        int ___index = abs(hash_map.hash(key)) % hash_map.capacity;                                                  \
+        int ___i = 0;                                                                                                \
+        while (___i < hash_map.keys[___index].size && !hash_map.equal(list_get(hash_map.keys[___index], ___i), key)) \
+            ___i++;                                                                                                  \
+        (___i < hash_map.keys[___index].size);                                                                       \
     })
 
-#define hash_map_get(hash_map, key) (                                                                            \
-    {                                                                                                            \
-        int ___index = abs(hash_map.hash(key)) % hash_map.capacity;                                              \
-        int ___i = 0;                                                                                            \
-        while (___i < hash_map.keys[___index].size && !hash_map.equal(hash_map.keys[___index].array[___i], key)) \
-            ___i++;                                                                                              \
-        (hash_map.values[___index].array[___i]);                                                                 \
+#define hash_map_get(hash_map, key) (                                                                                \
+    {                                                                                                                \
+        int ___index = abs(hash_map.hash(key)) % hash_map.capacity;                                                  \
+        int ___i = 0;                                                                                                \
+        while (___i < hash_map.keys[___index].size && !hash_map.equal(list_get(hash_map.keys[___index], ___i), key)) \
+            ___i++;                                                                                                  \
+        (list_get(hash_map.values[___index], ___i));                                                                 \
     })
 
-#define hash_map_remove(hash_map, key)                                                                           \
-    {                                                                                                            \
-        int ___index = hash_map.hash(key) % hash_map.capacity;                                                   \
-        int ___i = 0;                                                                                            \
-        while (___i < hash_map.keys[___index].size && !hash_map.equal(hash_map.keys[___index].array[___i], key)) \
-            ___i++;                                                                                              \
-        list_remove(hash_map.keys[___index], ___i);                                                              \
-        list_remove(hash_map.values[___index], ___i);                                                            \
-        hash_map.size--;                                                                                         \
+#define hash_map_remove(hash_map, key)                                                                               \
+    {                                                                                                                \
+        int ___index = hash_map.hash(key) % hash_map.capacity;                                                       \
+        int ___i = 0;                                                                                                \
+        while (___i < hash_map.keys[___index].size && !hash_map.equal(list_get(hash_map.keys[___index], ___i), key)) \
+            ___i++;                                                                                                  \
+        list_remove(hash_map.keys[___index], ___i);                                                                  \
+        list_remove(hash_map.values[___index], ___i);                                                                \
+        hash_map.size--;                                                                                             \
     }
 
 #endif

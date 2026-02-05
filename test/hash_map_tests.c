@@ -1,5 +1,6 @@
 #include "hash_map.h"
 #include <assert.h>
+#include <stdio.h>
 
 typedef struct Keyy
 {

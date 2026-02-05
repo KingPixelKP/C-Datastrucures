@@ -35,6 +35,9 @@
     .capacity = 0,  \
 }
 
+/**
+ * Check if the index is within bounds of the list
+ */
 #define ___list_check_bounds(list, index)    \
     {                                        \
         if (index >= list.size)              \
@@ -67,7 +70,6 @@
 #define list_insert(list, index, value)                                                                       \
     do                                                                                                        \
     {                                                                                                         \
-        ___list_check_bounds(list, index);                                                                    \
         if (list.size >= list.capacity)                                                                       \
         {                                                                                                     \
             if (list.capacity == 0)                                                                           \
@@ -80,8 +82,10 @@
             list_push(list, value);                                                                           \
         else                                                                                                  \
         {                                                                                                     \
+            ___list_check_bounds(list, index);                                                                \
             memmove(&list.array[index + 1], &list.array[index], sizeof(*list.array) * list.size - index - 1); \
             list.array[index] = value;                                                                        \
+            list.size++;                                                                                      \
         }                                                                                                     \
     } while (0)
 
@@ -100,7 +104,13 @@
         }                                                \
     } while (0)
 
-#define list_get(list, index)
+/**
+ * Gets the value at the indexes position
+ */
+#define list_get(list, index) ({       \
+    ___list_check_bounds(list, index); \
+    list.array[index];                 \
+})
 
 /**
  * Frees all memory the list used
