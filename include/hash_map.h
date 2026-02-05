@@ -13,7 +13,7 @@
 #define hash_map_define(K, V)                      \
     ulist_define_name(K, Bucket_##K);              \
     ulist_define_name(V, Bucket_##V);              \
-    typedef struct UHMap_##T                       \
+    typedef struct UHMap_##K##V                    \
     {                                              \
         Bucket_##K *keys;                          \
         Bucket_##V *values;                        \
@@ -22,6 +22,19 @@
         int (*hash)(const K key);                  \
         bool (*equal)(const K key1, const K key2); \
     } UHMap_##K##V
+
+#define hash_map_define_name(K, V, name)           \
+    ulist_define_name(K, Bucket_##K);              \
+    ulist_define_name(V, Bucket_##V);              \
+    typedef struct UHMap_##K##V                    \
+    {                                              \
+        Bucket_##K *keys;                          \
+        Bucket_##V *values;                        \
+        int size;                                  \
+        int capacity;                              \
+        int (*hash)(const K key);                  \
+        bool (*equal)(const K key1, const K key2); \
+    } name
 
 #define hash_map_init(hashFn, equalFn) \
     {                                  \

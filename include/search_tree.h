@@ -11,6 +11,7 @@
     {                                                    \
         K key;                                           \
         V value;                                         \
+        bool red;                                        \
         struct ___Node_##K##V *parent;                   \
         struct ___Node_##K##V *left;                     \
         struct ___Node_##K##V *right;                    \
@@ -37,6 +38,7 @@
     {                                  \
         .left = NULL,                  \
         .right = NULL,                 \
+        .red = true,                   \
     }
 
 #define ___search_tree_malloc_node (                                    \
@@ -60,6 +62,7 @@
             tree.root->key = _key;                                                       \
             tree.root->value = _value;                                                   \
             tree.root->parent = NULL;                                                    \
+            tree.root->red = false;                                                      \
             tree.size++;                                                                 \
         }                                                                                \
         else                                                                             \

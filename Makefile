@@ -18,6 +18,8 @@ all_tests: clean
 	 ./set.o >> set_results.test
 	 $(CC) $(args) -I${paths} ./test/search_tree_tests.c -o stree.o 
 	 ./stree.o >> search_tree_results.test
+	 $(CC) $(args) -I${paths} ./test/packed_array_tests.c -o packed.o 
+	 ./packed.o >> packed_array_results.test
 	
 
 	
