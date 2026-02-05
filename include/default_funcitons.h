@@ -1,14 +1,13 @@
+#pragma once
 #include <string.h>
+#include <stdbool.h>
 /* -------------------------------------------------------------------------- */
 /*                              default fnucitons                             */
 /* -------------------------------------------------------------------------- */
 /* ----------------------------------- int ---------------------------------- */
 int intHashFn(int key) { return key; };
-bool intEqualFn(int key1, int key2)
-{
-    printf("K1:%d,K2:%d\n", key1, key2);
-    return key1 == key2;
-};
+bool intEqualFn(int key1, int key2) { return key1 == key2; };
+int intCmpFn(int key1, int key2) { return key1 - key2; };
 /* ---------------------------------- char* --------------------------------- */
 int strHashFn(char *key)
 {
@@ -19,7 +18,4 @@ int strHashFn(char *key)
     }
     return hash;
 }
-bool strEqualFn(char *key1, char *key2)
-{
-    return strcmp(key1, key2) == 0;
-}
+bool strEqualFn(char *key1, char *key2) { return strcmp(key1, key2) == 0; }

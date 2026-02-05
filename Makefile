@@ -16,6 +16,10 @@ all_tests: clean
 	 ./llist.o >> linked_list_results.test
 	$(CC) $(args) -I${paths} ./test/set_tests.c -o set.o 
 	 ./set.o >> set_results.test
+	 $(CC) $(args) -I${paths} ./test/search_tree_tests.c -o stree.o 
+	 ./stree.o >> search_tree_results.test
+	
+
 	
 
 extended:

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef UNO_LIST_H
 #define UNO_LIST_H
 #include <stdlib.h>
@@ -66,7 +67,8 @@
                 exit(1);                                                           \
             }                                                                      \
         }                                                                          \
-        list.array[list.size++] = value;                                           \
+        list.array[list.size] = value;                                             \
+        list.size++;                                                               \
     } while (0)
 
 /**
@@ -131,6 +133,15 @@
     ___ulist_check_bounds(list, index); \
     list.array[index];                  \
 })
+
+/**
+ * "Clears" the list
+ */
+#define ulist_clear(list) \
+    do                    \
+    {                     \
+        list.size = 0;    \
+    } while (0)
 
 /**
  * Frees all memory the list used

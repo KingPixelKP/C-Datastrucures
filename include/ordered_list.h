@@ -1,3 +1,4 @@
+#pragma once
 #ifndef O_LIST_H
 /**
  * This list is not sorted its values will not be sorted, this list only makes sure that the values stay in their insertion order

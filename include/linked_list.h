@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
@@ -32,7 +33,7 @@
 /**
  * Inits a linked list's node
  */
-#define ___linked_list_node_init \
+#define ___linked_list_node_init(list) \
     (typeof(*list.front))        \
     {                            \
         .next = NULL,            \
@@ -75,7 +76,7 @@
                 printf("Allocation error!\n");                     \
                 exit(1);                                           \
             }                                                      \
-            *list.front = ___linked_list_node_init;                \
+            *list.front = ___linked_list_node_init(list);                \
             list.back = list.front;                                \
             list.front->value = _value;                            \
         }                                                          \
@@ -87,7 +88,7 @@
                 printf("Allocation error!\n");                     \
                 exit(1);                                           \
             }                                                      \
-            *list.back->next = ___linked_list_node_init;           \
+            *list.back->next = ___linked_list_node_init(list);           \
             list.back->next->prev = list.back;                     \
             list.back = list.back->next;                           \
             list.back->value = _value;                             \
@@ -109,7 +110,7 @@
                 printf("Allocation error!\n");                      \
                 exit(1);                                            \
             }                                                       \
-            *list.front = ___linked_list_node_init;                 \
+            *list.front = ___linked_list_node_init(list);                 \
             list.back = list.front;                                 \
             list.front->value = _value;                             \
         }                                                           \
@@ -121,7 +122,7 @@
                 printf("Allocation error!\n");                      \
                 exit(1);                                            \
             }                                                       \
-            *list.front->prev = ___linked_list_node_init;           \
+            *list.front->prev = ___linked_list_node_init(list);           \
             list.front->prev->next = list.front;                    \
             list.front = list.front->prev;                          \
             list.front->value = _value;                             \
@@ -198,7 +199,7 @@
             printf("Allocation error!\n");                                          \
             exit(1);                                                                \
         }                                                                           \
-        *___new_node = ___linked_list_node_init;                                    \
+        *___new_node = ___linked_list_node_init(list);                                    \
         ___new_node->value = _value;                                                \
         ___new_node->next = ___insert_before;                                       \
         ___new_node->prev = ___insert_before->prev;                                 \
