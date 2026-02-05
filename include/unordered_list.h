@@ -19,11 +19,11 @@
  * Defines a list of type T with name name
  */
 #define list_define_name(T, name) \
-    typedef struct name      \
-    {                        \
-        T *array;            \
-        int size;            \
-        int capacity;        \
+    typedef struct name           \
+    {                             \
+        T *array;                 \
+        int size;                 \
+        int capacity;             \
     } name
 
 /**
@@ -34,6 +34,15 @@
     .size = 0,      \
     .capacity = 0,  \
 }
+
+#define ___list_check_bounds(list, index)    \
+    {                                        \
+        if (index >= list.size)              \
+        {                                    \
+            printf("Index out of bounds\n"); \
+            exit(1);                         \
+        }                                    \
+    }
 
 /**
  * Pushes a value onto the list
@@ -58,11 +67,7 @@
 #define list_insert(list, index, value)                                                                       \
     do                                                                                                        \
     {                                                                                                         \
-        if (list.size < index)                                                                                \
-        {                                                                                                     \
-            printf("Cannot insert outside of list!\n");                                                       \
-            exit(1);                                                                                          \
-        }                                                                                                     \
+        ___list_check_bounds(list, index);                                                                    \
         if (list.size >= list.capacity)                                                                       \
         {                                                                                                     \
             if (list.capacity == 0)                                                                           \
@@ -79,13 +84,14 @@
             list.array[index] = value;                                                                        \
         }                                                                                                     \
     } while (0)
-    
+
 /**
  * Removes a value from the list, WILL NOT MANTAIN ORDER
  */
 #define list_remove(list, index)                         \
     do                                                   \
     {                                                    \
+        ___list_check_bounds(list, index);               \
         if (index == list.size - 1)                      \
             list.size--;                                 \
         else                                             \
@@ -93,6 +99,8 @@
             list.array[index] = list.array[--list.size]; \
         }                                                \
     } while (0)
+
+#define list_get(list, index)
 
 /**
  * Frees all memory the list used
