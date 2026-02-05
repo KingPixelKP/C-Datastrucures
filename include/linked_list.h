@@ -223,4 +223,18 @@
             list.front = ___to_remove->next;                                    \
         free(___to_remove);                                                     \
     }
+
+#define linked_list_free(list)                          \
+    {                                                   \
+        if (list.size != 0)                             \
+        {                                               \
+            typeof(list.front) ___to_free = list.front; \
+            while (___to_free->next)                    \
+            {                                           \
+                ___to_free = ___to_free->next;          \
+                free(___to_free->prev);                 \
+            }                                           \
+            free(___to_free);                           \
+        }                                               \
+    }
 #endif

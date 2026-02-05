@@ -76,4 +76,5 @@ int main()
         printf("Removing 0\n");
         linked_list_remove(list, 0);
     }
+    linked_list_free(list);
 }
