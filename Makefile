@@ -14,6 +14,8 @@ all_tests: clean
 	 ./olist.o >> ordered_list_results.test
 	$(CC) $(args) -I${paths} ./test/linked_list_tests.c -o llist.o 
 	 ./llist.o >> linked_list_results.test
+	$(CC) $(args) -I${paths} ./test/set_tests.c -o set.o 
+	 ./set.o >> set_results.test
 	
 
 extended:

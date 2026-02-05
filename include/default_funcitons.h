@@ -4,7 +4,11 @@
 /* -------------------------------------------------------------------------- */
 /* ----------------------------------- int ---------------------------------- */
 int intHashFn(int key) { return key; };
-bool intEqualFn(int key1, int key2) { return key1 == key2; };
+bool intEqualFn(int key1, int key2)
+{
+    printf("K1:%d,K2:%d\n", key1, key2);
+    return key1 == key2;
+};
 /* ---------------------------------- char* --------------------------------- */
 int strHashFn(char *key)
 {
