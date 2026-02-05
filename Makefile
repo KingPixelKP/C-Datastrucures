@@ -1,5 +1,5 @@
 CC=gcc
-args=-g -Wall -Wextra 
+args=-g -Wall -Wextra
 paths=./include
 
 all:

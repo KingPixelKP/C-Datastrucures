@@ -65,6 +65,16 @@
     } while (0)
 
 /**
+ * Pops the last value of the list
+ */
+#define list_pop(list) (list.array[--list.size])
+
+/**
+ * Peeks the last value of the list
+ */
+#define list_peek(list) (list.array[list.size-1])
+
+/**
  * Inserts an element at the index position of the list
  */
 #define list_insert(list, index, value)                                                                       \
