@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "unordered_list.h"
+#include "default_funcitons.h"
 
 #define set_define(T)                      \
     ulist_define(T);                       \
@@ -16,6 +17,18 @@
     {                       \
         .equal = equalFn,   \
         .list = ulist_init, \
+    }
+
+#define set_init_intval(equalFn) \
+    {                            \
+        .equal = intEqualFn,     \
+        .list = ulist_init,      \
+    }
+
+#define set_init_intstr(equalFn) \
+    {                            \
+        .equal = strEqualFn,     \
+        .list = ulist_init,      \
     }
 
 #define set_has(set, value) ({                           \
