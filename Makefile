@@ -12,6 +12,9 @@ all_tests: clean
 	 ./ulist.o >> unordered_list_results.test
 	$(CC) $(args) -I${paths} ./test/ordered_list_tests.c -o olist.o 
 	 ./olist.o >> ordered_list_results.test
+	$(CC) $(args) -I${paths} ./test/linked_list_tests.c -o llist.o 
+	 ./llist.o >> linked_list_results.test
+	
 
 extended:
 	$(CC) $(args) -I./include main.c -E -o main.o -lraylib
