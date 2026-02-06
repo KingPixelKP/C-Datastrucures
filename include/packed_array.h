@@ -4,20 +4,18 @@
 #include "hash_map.h"
 
 #define PACKED_ARRAY_SIZE 1024
-typedef int Entity;
 
 /**
  * Defines a new type of component array with name name and type T
  */
-#define packed_array_define(T)                       \
-    hash_map_define_name(int, Entity, intEntMap##T); \
-    hash_map_define_name(Entity, int, EntintMap##T); \
-    typedef struct PArray_##T                        \
-    {                                                \
-        T data[PACKED_ARRAY_SIZE];                   \
-        intEntMap##T index_to_entity;                \
-        EntintMap##T entity_to_index;                \
-        int size;                                    \
+#define packed_array_define(T)                      \
+    hash_map_define_name(int, int, UMap_packed##T); \
+    typedef struct PArray_##T                       \
+    {                                               \
+        T data[PACKED_ARRAY_SIZE];                  \
+        UMap_packed##T index_to_entity;             \
+        UMap_packed##T entity_to_index;             \
+        int size;                                   \
     } PArray_##T
 
 /**
